@@ -1,20 +1,20 @@
 import Link from "next/link";
-import BrandMark from "./BrandMark";
+import Image from "next/image";
 
 export default function Footer() {
   return (
     <footer className="bg-navy-2 text-white/70 border-t border-white/10">
       <div className="mx-auto max-w-[1240px] px-5 md:px-10 py-14 grid grid-cols-2 md:grid-cols-4 gap-8">
         <div className="col-span-2 md:col-span-1">
-          <div className="flex items-center gap-2.5">
-            <BrandMark />
-            <span className="leading-none">
-              <span className="block font-display text-lg font-bold text-white">
-                HD RIVIC
-              </span>
-              <span className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-cyan mt-0.5">
-                Ingeniería Médica
-              </span>
+          <div className="inline-flex">
+            <span className="bg-white rounded-xl px-3 py-1.5 inline-flex items-center">
+              <Image
+                src="/assets/hd-rivic-logo.png"
+                alt="HD RIVIC · Ingeniería Médica"
+                width={140}
+                height={80}
+                className="h-9 w-auto"
+              />
             </span>
           </div>
           <p className="mt-4 text-sm max-w-xs">

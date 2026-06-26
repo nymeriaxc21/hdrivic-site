@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import BrandMark from "./BrandMark";
 
 const NAV = [
   { href: "/catalogo", label: "Equipos" },
@@ -49,17 +49,18 @@ export default function Header() {
       <div className="mx-auto max-w-[1240px] h-16 md:h-[72px] px-5 md:px-10 flex items-center justify-between gap-4">
         <Link
           href="/"
-          className="flex items-center gap-2.5"
+          className="flex items-center shrink-0"
           aria-label="HD RIVIC — Inicio"
         >
-          <BrandMark />
-          <span className="leading-none">
-            <span className="brand-word block font-display text-lg font-bold tracking-tight">
-              HD RIVIC
-            </span>
-            <span className="brand-tag block text-[10px] font-semibold uppercase tracking-[0.18em] mt-0.5">
-              Ingeniería Médica
-            </span>
+          <span className="bg-white/95 backdrop-blur-sm rounded-xl px-3 py-1.5 inline-flex items-center">
+            <Image
+              src="/assets/hd-rivic-logo.png"
+              alt="HD RIVIC · Ingeniería Médica"
+              width={140}
+              height={80}
+              className="h-9 w-auto"
+              priority
+            />
           </span>
         </Link>
 
