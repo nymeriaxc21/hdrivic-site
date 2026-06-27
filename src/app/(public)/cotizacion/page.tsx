@@ -30,7 +30,7 @@ export default async function CotizacionPage({
 
       <section className="bg-surface py-12 md:py-16">
         <div className="mx-auto max-w-[1240px] px-5 md:px-10 grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2" data-reveal>
             <QuoteForm
               products={products.map((p) => ({ id: p.id, name: p.name }))}
               defaultProductId={defaultProduct?.id}
@@ -38,8 +38,8 @@ export default async function CotizacionPage({
           </div>
 
           {/* Información de contacto */}
-          <aside className="space-y-4">
-            <div className="rounded-2xl border border-line bg-white p-6">
+          <aside className="space-y-4" data-stagger="90">
+            <div className="card-glow rounded-2xl border border-line bg-white p-6" data-reveal="left">
               <h2 className="font-display text-lg font-semibold text-ink mb-4">
                 Atención directa de fábrica
               </h2>
@@ -86,7 +86,7 @@ export default async function CotizacionPage({
               </ul>
               <a
                 href="https://wa.me/522221234567"
-                className="mt-6 inline-flex items-center justify-center gap-2 w-full h-11 rounded-lg bg-cyan text-white text-sm font-semibold hover:bg-[#1391c2] transition"
+                className="btn-brand mt-6 inline-flex items-center justify-center gap-2 w-full h-11 rounded-xl text-sm font-semibold"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M21 11.5a8.5 8.5 0 01-12.5 7.5L3 21l2-5.5A8.5 8.5 0 1121 11.5z" />
@@ -95,7 +95,7 @@ export default async function CotizacionPage({
               </a>
             </div>
 
-            <div className="rounded-2xl border border-line bg-blue-fixed/40 p-6 text-sm text-primary">
+            <div className="rounded-2xl border border-line bg-blue-fixed/40 p-6 text-sm text-primary" data-reveal="left">
               <p className="font-semibold">Incluido en cada equipo</p>
               <ul className="mt-2 space-y-1.5 text-primary/80">
                 <li>· Entrega e instalación</li>

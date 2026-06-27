@@ -34,14 +34,14 @@ export default async function ProductPage({ params }: Props) {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           {/* Imagen */}
-          <div className="relative rounded-2xl overflow-hidden border border-line bg-white shadow-soft">
-            <div className="aspect-[4/3]">
+          <div className="card-glow group relative rounded-2xl overflow-hidden border border-line bg-white shadow-soft" data-reveal="right">
+            <div className="aspect-[4/3] overflow-hidden">
               {product.image_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={product.image_url}
                   alt={product.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-700 ease-out"
                 />
               ) : (
                 <div className="w-full h-full grid place-items-center text-muted" aria-hidden="true">
@@ -61,7 +61,7 @@ export default async function ProductPage({ params }: Props) {
           </div>
 
           {/* Información */}
-          <div>
+          <div data-reveal="left">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-ink mb-3">
               {product.category}
             </p>
@@ -79,9 +79,9 @@ export default async function ProductPage({ params }: Props) {
             )}
 
             {product.features.length > 0 && (
-              <ul className="mt-7 space-y-3">
+              <ul className="mt-7 space-y-3" data-stagger="60">
                 {product.features.map((f) => (
-                  <li key={f} className="flex gap-3 text-ink/90">
+                  <li key={f} className="flex gap-3 text-ink/90" data-reveal="right">
                     <svg className="mt-0.5 shrink-0 text-cyan-ink" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M20 6L9 17l-5-5" />
                     </svg>
@@ -95,13 +95,13 @@ export default async function ProductPage({ params }: Props) {
             <div className="mt-9 flex flex-col sm:flex-row gap-3">
               <Link
                 href={`/cotizacion?producto=${product.slug}`}
-                className="inline-flex items-center justify-center h-12 px-7 rounded-lg bg-blue text-white text-base font-semibold shadow-soft hover:bg-primary active:scale-[0.97] transition"
+                className="btn-brand inline-flex items-center justify-center h-12 px-7 rounded-xl text-base font-semibold"
               >
                 Solicitar Cotización
               </Link>
               <a
                 href="https://wa.me/522221234567"
-                className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-lg border border-line text-primary text-base font-semibold hover:bg-white active:scale-[0.97] transition"
+                className="btn-ghost inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl border border-line text-primary text-base font-semibold hover:bg-white hover:border-cyan/50"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M21 11.5a8.5 8.5 0 01-12.5 7.5L3 21l2-5.5A8.5 8.5 0 1121 11.5z" />
@@ -114,13 +114,13 @@ export default async function ProductPage({ params }: Props) {
 
         {/* Especificaciones */}
         {product.specs.length > 0 && (
-          <div className="mt-16">
+          <div className="mt-16" data-reveal>
             <h2 className="font-display text-2xl font-bold tracking-tight text-ink mb-6">
               Especificaciones
             </h2>
-            <dl className="rounded-2xl border border-line bg-white divide-y divide-line overflow-hidden max-w-2xl">
+            <dl className="rounded-2xl border border-line bg-white divide-y divide-line overflow-hidden max-w-2xl shadow-soft">
               {product.specs.map((s) => (
-                <div key={s.label} className="flex justify-between gap-6 px-6 py-4">
+                <div key={s.label} className="flex justify-between gap-6 px-6 py-4 transition-colors hover:bg-surface">
                   <dt className="text-muted">{s.label}</dt>
                   <dd className="font-semibold text-ink text-right tnum">{s.value}</dd>
                 </div>

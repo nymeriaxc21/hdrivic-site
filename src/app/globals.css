@@ -2,39 +2,62 @@
 
 /* ============================================================
    HD RIVIC · Ingeniería Médica — Design System (Tailwind v4)
-   Tokens portados de design-system/MASTER.md
+   Paleta extraída del logo real: cian #008CC8 + navy #002864
+   Motion: principios de Emil Kowalski (ease-out, transform/opacity)
    ============================================================ */
 @theme {
-  /* Colores de marca (logo: cian brillante + navy profundo) */
-  --color-ink: #14181b; /* texto principal */
-  --color-muted: #475569; /* texto secundario */
-  --color-line: #e3edf2; /* bordes / divisores */
-  --color-surface: #f4fafc; /* fondo de página (frío) */
-  --color-primary: #0c3a66; /* navy profundo (wordmark) */
-  --color-primary-deep: #082c4f;
-  --color-blue: #135c9e; /* azul de acción — CTAs (AA sobre blanco) */
-  --color-cyan: #16a6dd; /* cian de marca — rellenos / decoración / sobre oscuro */
-  --color-cyan-ink: #0a6086; /* cian AA como texto sobre claro */
-  --color-blue-fixed: #cfeafa; /* tinte cian claro (chips, texto sobre oscuro) */
-  --color-navy: #06243f; /* bandas oscuras / hero / CTA */
-  --color-navy-2: #0a2f50; /* footer */
-  --color-star: #f59e0b; /* calificaciones */
+  /* ---- Neutros (fríos, alineados a la marca) ---- */
+  --color-ink: #0a1822; /* texto principal */
+  --color-muted: #46586a; /* texto secundario */
+  --color-line: #dbe8f1; /* bordes / divisores */
+  --color-surface: #f2f8fc; /* fondo de página */
+  --color-surface-2: #e8f2fa; /* fondo alterno / bandas frías */
 
-  /* Tipografía (variables inyectadas por next/font en <html>) */
+  /* ---- Navy de marca (#002864 — wordmark) ---- */
+  --color-navy: #002864; /* hero / bandas oscuras */
+  --color-navy-2: #04305f; /* footer */
+  --color-navy-deep: #001a45; /* sombras / profundidad */
+  --color-primary: #023a6e; /* navy legible (texto/íconos sobre claro) */
+  --color-primary-deep: #012246;
+
+  /* ---- Cian de marca (#008CC8 — engranaje/onda) ---- */
+  --color-cyan: #008cc8; /* CIAN DE MARCA — rellenos / decoración */
+  --color-cyan-bright: #19a8e0; /* highlight / glow */
+  --color-cyan-ink: #0a6086; /* cian AA como texto sobre claro */
+  --color-blue: #0a63ab; /* azul de acción — CTAs (AA con texto blanco) */
+  --color-blue-fixed: #cfe9fb; /* tinte cian claro (chips / texto sobre oscuro) */
+
+  --color-star: #f5a623; /* calificaciones */
+
+  /* ---- Tipografía ---- */
   --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-display: var(--font-space-grotesk), "Inter", sans-serif;
 
-  /* Radios (escala del MASTER) */
+  /* ---- Radios ---- */
   --radius-lg: 0.875rem;
   --radius-xl: 1.25rem;
   --radius-2xl: 1.5rem;
 
-  /* Sombras */
-  --shadow-soft: 0 4px 20px rgba(11, 58, 102, 0.08);
-  --shadow-lift: 0 14px 40px rgba(6, 36, 63, 0.14);
+  /* ---- Sombras (con tinte cian de marca) ---- */
+  --shadow-soft: 0 4px 20px rgba(2, 40, 100, 0.08);
+  --shadow-lift: 0 18px 44px -12px rgba(2, 40, 100, 0.22);
+  --shadow-glow: 0 20px 50px -16px rgba(0, 140, 200, 0.45);
+  --shadow-glow-lg: 0 30px 70px -18px rgba(0, 140, 200, 0.55);
 
-  /* Contenedor */
   --container-shell: 1240px;
+}
+
+/* ---- Tokens de motion + gradientes (no-tema) ---- */
+:root {
+  /* Curvas de easing (Emil Kowalski — más fuertes que las nativas) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --grad-brand: linear-gradient(120deg, #008cc8, #0a63ab 55%, #023a6e);
+  --grad-cyan: linear-gradient(120deg, #19a8e0, #008cc8);
+  --grad-hero-text: linear-gradient(100deg, #eaf6ff, #19a8e0, #bfe6ff, #eaf6ff);
+  --grad-ink-text: linear-gradient(100deg, #023a6e, #008cc8, #19a8e0, #023a6e);
 }
 
 /* ---------- Base ---------- */
@@ -49,7 +72,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* ---------- Utilidades de marca ---------- */
 .tnum {
   font-variant-numeric: tabular-nums;
 }
@@ -63,6 +85,7 @@ body {
   border-radius: 8px;
 }
 
+/* ---------- Motivos de fondo ---------- */
 .grid-motif {
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
@@ -78,22 +101,305 @@ body {
   background-size: 18px 18px;
 }
 
-/* ---------- Header: claro sobre hero oscuro, oscuro al hacer scroll ---------- */
+/* ============================================================
+   MOTION ENGINE
+   ============================================================ */
+
+/* ---- Texto con gradiente animado ---- */
+.text-gradient-hero {
+  background: var(--grad-hero-text);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.text-gradient-brand {
+  background: var(--grad-ink-text);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---- Botón de marca: gradiente + barrido de brillo ---- */
+.btn-brand {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(120deg, #008cc8, #0a63ab 55%, #023a6e);
+  background-size: 170% 100%;
+  background-position: 0% 0%;
+  color: #fff;
+  box-shadow: 0 12px 30px -10px rgba(0, 140, 200, 0.6);
+  transition: background-position 0.55s var(--ease-out),
+    transform 0.16s var(--ease-out), box-shadow 0.35s var(--ease-out);
+}
+.btn-brand:hover {
+  background-position: 100% 0%;
+  box-shadow: 0 18px 44px -10px rgba(0, 140, 200, 0.7);
+}
+.btn-brand:active {
+  transform: scale(0.97);
+}
+.btn-brand::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(
+    110deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transform: skewX(-18deg);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .btn-brand::after {
+    transition: left 0.7s var(--ease-out);
+  }
+  .btn-brand:hover::after {
+    left: 135%;
+  }
+}
+
+/* ---- Botón fantasma (sobre oscuro) ---- */
+.btn-ghost {
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s var(--ease-out),
+    transform 0.16s var(--ease-out), border-color 0.3s var(--ease-out);
+}
+.btn-ghost:active {
+  transform: scale(0.97);
+}
+
+/* ---- Tarjeta con glow al hover ---- */
+.card-glow {
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out),
+    border-color 0.4s var(--ease-out);
+  will-change: transform;
+}
+@media (hover: hover) and (pointer: fine) {
+  .card-glow:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-glow);
+    border-color: color-mix(in srgb, var(--color-cyan) 45%, transparent);
+  }
+}
+
+/* ---- Spotlight que sigue al cursor (overlay sutil por encima) ---- */
+.spotlight {
+  position: relative;
+}
+@media (hover: hover) and (pointer: fine) {
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      460px circle at var(--mx, 50%) var(--my, 50%),
+      color-mix(in srgb, var(--color-cyan) 16%, transparent),
+      transparent 62%
+    );
+    opacity: 0;
+    transition: opacity 0.35s var(--ease-out);
+    z-index: 2;
+  }
+  .spotlight:hover::before {
+    opacity: 1;
+  }
+}
+
+/* ---- Aura / orbes flotantes (hero, CTA) ---- */
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+/* ---- Marquee de logos ---- */
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 3.5rem;
+}
+
+/* ---- Barra de progreso de scroll ---- */
+#scrollProgress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, #008cc8, #19a8e0, #0a63ab);
+  z-index: 60;
+  will-change: transform;
+}
+
+/* ---- Underline animado de navegación ---- */
+.navlink {
+  position: relative;
+}
+.navlink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 2px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.3s var(--ease-out);
+}
+.navlink:hover::after {
+  transform: scaleX(1);
+}
+
+/* ============================================================
+   ANIMACIONES (solo motion-safe)
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference) {
+  .anim-gradient-text {
+    animation: gradientShift 9s linear infinite;
+  }
+  .float-slow {
+    animation: floatY 7s var(--ease-in-out) infinite;
+  }
+  .float-med {
+    animation: floatY2 5.5s var(--ease-in-out) infinite;
+  }
+  .spin-slow {
+    animation: spinSlow 60s linear infinite;
+  }
+  .spin-slow-rev {
+    animation: spinSlow 80s linear infinite reverse;
+  }
+  .aurora-a {
+    animation: auroraA 16s var(--ease-in-out) infinite;
+  }
+  .aurora-b {
+    animation: auroraB 20s var(--ease-in-out) infinite;
+  }
+  .glow-pulse {
+    animation: glowPulse 6s var(--ease-in-out) infinite;
+  }
+  .marquee-track {
+    animation: marquee 38s linear infinite;
+  }
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+  .flow-x {
+    background-size: 200% 100%;
+    animation: gradientShift 6s linear infinite;
+  }
+  .menu-in {
+    animation: menuIn 0.25s var(--ease-out);
+  }
+}
+
+@keyframes menuIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes gradientShift {
+  to {
+    background-position: 220% 0;
+  }
+}
+@keyframes floatY {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+@keyframes floatY2 {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(16px);
+  }
+}
+@keyframes spinSlow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes auroraA {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(6%, 4%, 0) scale(1.12);
+  }
+}
+@keyframes auroraB {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  50% {
+    transform: translate3d(-5%, -3%, 0) scale(0.95);
+  }
+}
+@keyframes glowPulse {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------- Header: claro sobre hero oscuro, sólido al hacer scroll ---------- */
 #siteHeader {
-  transition: background-color 0.25s ease, box-shadow 0.25s ease,
-    border-color 0.25s ease;
+  transition: background-color 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out),
+    border-color 0.3s var(--ease-out);
 }
 #siteHeader.scrolled {
-  background: rgba(244, 250, 252, 0.9);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 1px 0 rgba(20, 24, 27, 0.06);
+  background: rgba(242, 248, 252, 0.82);
+  backdrop-filter: blur(12px) saturate(1.2);
+  box-shadow: 0 1px 0 rgba(2, 40, 100, 0.07), var(--shadow-soft);
   border-color: var(--color-line);
-}
-#siteHeader .brand-word {
-  color: #ffffff;
-}
-#siteHeader .brand-tag {
-  color: #bfe6f7;
 }
 #siteHeader .navlink {
   color: rgba(255, 255, 255, 0.85);
@@ -103,12 +409,6 @@ body {
 }
 #siteHeader .menu-btn {
   color: #ffffff;
-}
-#siteHeader.scrolled .brand-word {
-  color: var(--color-primary);
-}
-#siteHeader.scrolled .brand-tag {
-  color: var(--color-cyan-ink);
 }
 #siteHeader.scrolled .navlink {
   color: var(--color-muted);
@@ -122,15 +422,9 @@ body {
 
 /* En páginas internas (no-home) el header arranca ya en modo claro */
 #siteHeader.solid {
-  background: rgba(244, 250, 252, 0.9);
-  backdrop-filter: blur(10px);
+  background: rgba(242, 248, 252, 0.85);
+  backdrop-filter: blur(12px) saturate(1.2);
   border-color: var(--color-line);
-}
-#siteHeader.solid .brand-word {
-  color: var(--color-primary);
-}
-#siteHeader.solid .brand-tag {
-  color: var(--color-cyan-ink);
 }
 #siteHeader.solid .navlink {
   color: var(--color-muted);
@@ -151,24 +445,39 @@ details.faq > summary::-webkit-details-marker {
   display: none;
 }
 details.faq .chev {
-  transition: transform 0.2s ease;
+  transition: transform 0.3s var(--ease-out);
 }
 details.faq[open] .chev {
   transform: rotate(180deg);
 }
 
-/* ---------- Reveal al hacer scroll (solo motion-safe) ---------- */
+/* ---------- Reveal al hacer scroll (stagger via --reveal-delay) ---------- */
 @media (prefers-reduced-motion: no-preference) {
   [data-reveal] {
     opacity: 0;
-    transform: translateY(14px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    transform: translateY(22px);
+    transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  [data-reveal="right"] {
+    transform: translateX(-26px);
+  }
+  [data-reveal="left"] {
+    transform: translateX(26px);
+  }
+  [data-reveal="scale"] {
+    transform: scale(0.94);
+  }
+  [data-reveal="blur"] {
+    filter: blur(8px);
   }
   [data-reveal].in {
     opacity: 1;
     transform: none;
+    filter: none;
   }
 }
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -177,10 +486,12 @@ details.faq[open] .chev {
   *::before,
   *::after {
     animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
 }
 
 #toTop {
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out),
+    background-color 0.3s var(--ease-out), color 0.3s var(--ease-out);
 }

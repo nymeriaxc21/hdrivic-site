@@ -52,7 +52,7 @@ export default function Header() {
           className="flex items-center shrink-0"
           aria-label="HD RIVIC — Inicio"
         >
-          <span className="bg-white/95 backdrop-blur-sm rounded-xl px-3 py-1.5 inline-flex items-center">
+          <span className="bg-white/95 backdrop-blur-sm rounded-xl px-3 py-1.5 inline-flex items-center shadow-soft transition-transform duration-300 hover:scale-[1.03] active:scale-95">
             <Image
               src="/assets/hd-rivic-logo.png"
               alt="HD RIVIC · Ingeniería Médica"
@@ -82,7 +82,7 @@ export default function Header() {
         <div className="flex items-center gap-2">
           <Link
             href="/cotizacion"
-            className="hidden sm:inline-flex items-center justify-center h-11 px-5 rounded-lg bg-blue text-white text-sm font-semibold shadow-soft hover:bg-primary active:scale-[0.97] transition"
+            className="btn-brand hidden sm:inline-flex items-center justify-center h-11 px-5 rounded-xl text-sm font-semibold"
           >
             Solicitar Cotización
           </Link>
@@ -117,7 +117,7 @@ export default function Header() {
       {menuOpen && (
         <div
           id="mobileMenu"
-          className="lg:hidden bg-surface/95 backdrop-blur border-t border-line"
+          className="menu-in lg:hidden bg-surface/95 backdrop-blur border-t border-line"
         >
           <nav
             className="px-5 py-2 flex flex-col"
@@ -137,7 +137,7 @@ export default function Header() {
             ))}
             <Link
               href="/cotizacion"
-              className="mt-3 mb-3 inline-flex items-center justify-center h-12 rounded-lg bg-blue text-white font-semibold"
+              className="btn-brand mt-3 mb-3 inline-flex items-center justify-center h-12 rounded-xl font-semibold"
             >
               Solicitar Cotización
             </Link>

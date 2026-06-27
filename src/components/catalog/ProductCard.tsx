@@ -3,7 +3,10 @@ import type { Product } from "@/lib/types";
 
 export default function ProductCard({ product }: { product: Product }) {
   return (
-    <article className="group bg-white rounded-2xl border border-line overflow-hidden flex flex-col hover:shadow-lift hover:-translate-y-0.5 transition-all duration-300">
+    <article
+      className="card-glow spotlight group bg-white rounded-2xl border border-line overflow-hidden flex flex-col"
+      data-reveal
+    >
       <Link
         href={`/productos/${product.slug}`}
         className="block relative aspect-[4/3] bg-surface overflow-hidden"
@@ -13,7 +16,7 @@ export default function ProductCard({ product }: { product: Product }) {
           <img
             src={product.image_url}
             alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-700 ease-out"
             loading="lazy"
           />
         ) : (
@@ -25,8 +28,10 @@ export default function ProductCard({ product }: { product: Product }) {
             </svg>
           </div>
         )}
+        <span className="absolute inset-0 bg-gradient-to-t from-navy/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true" />
         {product.badge && (
-          <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-cyan text-white px-3 py-1 text-xs font-semibold shadow-soft">
+          <span className="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-cyan text-white px-3 py-1 text-xs font-semibold shadow-soft">
+            <span className="w-1.5 h-1.5 rounded-full bg-white/90" aria-hidden="true" />
             {product.badge}
           </span>
         )}

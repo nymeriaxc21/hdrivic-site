@@ -10,6 +10,7 @@ export default function PublicLayout({
 }) {
   return (
     <div className="bg-surface text-ink pb-[76px] lg:pb-0">
+      <div id="scrollProgress" aria-hidden="true" />
       <a
         href="#contenido"
         className="sr-only focus:not-sr-only focus:fixed focus:z-[100] focus:top-3 focus:left-3 focus:bg-primary focus:text-white focus:px-4 focus:py-2 focus:rounded-lg"

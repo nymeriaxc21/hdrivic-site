@@ -28,9 +28,9 @@ export default async function CatalogoPage({
     <Link
       key={label}
       href={href}
-      className={`inline-flex items-center h-9 px-4 rounded-full text-sm font-medium border transition ${
+      className={`inline-flex items-center h-9 px-4 rounded-full text-sm font-medium border transition active:scale-95 ${
         active
-          ? "bg-primary text-white border-primary"
+          ? "bg-gradient-to-r from-cyan to-blue text-white border-transparent shadow-soft"
           : "bg-white text-muted border-line hover:border-cyan/50 hover:text-primary"
       }`}
     >
@@ -49,7 +49,7 @@ export default async function CatalogoPage({
       <section className="bg-surface py-10 md:py-14">
         <div className="mx-auto max-w-[1240px] px-5 md:px-10">
           {/* Filtros por categoría */}
-          <div className="flex flex-wrap gap-2 mb-8">
+          <div className="flex flex-wrap gap-2 mb-8" data-reveal>
             {chip("Todos", "/catalogo", activeCat === null)}
             {categories.map((c) =>
               chip(c, `/catalogo?cat=${encodeURIComponent(c)}`, activeCat === c)
@@ -57,19 +57,22 @@ export default async function CatalogoPage({
           </div>
 
           {filtered.length === 0 ? (
-            <div className="rounded-2xl border border-line bg-white p-12 text-center">
+            <div className="rounded-2xl border border-line bg-white p-12 text-center" data-reveal>
               <p className="text-muted">
                 No hay equipos en esta categoría por ahora.
               </p>
               <Link
                 href="/cotizacion"
-                className="mt-4 inline-flex items-center justify-center h-11 px-5 rounded-lg bg-blue text-white text-sm font-semibold hover:bg-primary transition"
+                className="btn-brand mt-4 inline-flex items-center justify-center h-11 px-5 rounded-xl text-sm font-semibold"
               >
                 Solicitar asesoría
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+              data-stagger="80"
+            >
               {filtered.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
