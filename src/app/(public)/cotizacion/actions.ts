@@ -8,6 +8,26 @@ export type QuoteState = {
   message?: string;
 };
 
+type CartItem = { name: string; qty: number; category?: string };
+
+function parseItems(raw: string): CartItem[] {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .filter((x) => x && typeof x.name === "string")
+      .map((x) => ({
+        name: String(x.name).slice(0, 160),
+        qty: Math.min(99, Math.max(1, Number(x.qty) || 1)),
+        category: x.category ? String(x.category).slice(0, 80) : undefined,
+      }))
+      .slice(0, 50);
+  } catch {
+    return [];
+  }
+}
+
 export async function submitQuote(
   _prev: QuoteState,
   formData: FormData
@@ -18,6 +38,7 @@ export async function submitQuote(
   const clinic = String(formData.get("clinic") ?? "").trim();
   const productId = String(formData.get("product_id") ?? "").trim();
   const message = String(formData.get("message") ?? "").trim();
+  const items = parseItems(String(formData.get("items") ?? "").trim());
 
   if (!name || !email) {
     return { status: "error", message: "Nombre y correo son obligatorios." };
@@ -35,7 +56,16 @@ export async function submitQuote(
 
   let product_id: string | null = null;
   let product_name: string | null = null;
-  if (productId) {
+  let finalMessage = message || null;
+
+  if (items.length > 0) {
+    // Cotización con varios equipos (carrito)
+    product_name = items.map((i) => `${i.name} ×${i.qty}`).join("; ").slice(0, 300);
+    const summary =
+      "Equipos solicitados:\n" +
+      items.map((i) => `• ${i.name} ×${i.qty}`).join("\n");
+    finalMessage = message ? `${summary}\n\n${message}` : summary;
+  } else if (productId) {
     product_id = productId;
     const { data } = await supabase
       .from("products")
@@ -52,7 +82,7 @@ export async function submitQuote(
     clinic: clinic || null,
     product_id,
     product_name,
-    message: message || null,
+    message: finalMessage,
   });
 
   if (error) {

@@ -1,12 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import type { Product } from "@/lib/types";
+import AddToQuoteButton from "@/components/cart/AddToQuoteButton";
 
 export default function ProductCard({ product }: { product: Product }) {
   return (
-    <article
-      className="card-glow spotlight group bg-white rounded-2xl border border-line overflow-hidden flex flex-col"
-      data-reveal
-    >
+    <article className="card-enter card-glow group bg-white rounded-2xl border border-line overflow-hidden flex flex-col">
       <Link
         href={`/productos/${product.slug}`}
         className="block relative aspect-[4/3] bg-surface overflow-hidden"
@@ -37,33 +37,46 @@ export default function ProductCard({ product }: { product: Product }) {
         )}
       </Link>
 
-      <div className="p-6 flex flex-col flex-grow">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-ink mb-2">
+      <div className="p-5 flex flex-col flex-grow">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan-ink mb-1.5">
           {product.category}
         </p>
-        <h3 className="font-display text-lg font-semibold text-ink">
-          <Link href={`/productos/${product.slug}`} className="hover:text-primary transition-colors">
+        <h3 className="font-display text-base font-semibold text-ink leading-snug">
+          <Link href={`/productos/${product.slug}`} className="hover:text-primary transition-colors line-clamp-2">
             {product.name}
           </Link>
         </h3>
         {product.tagline && (
-          <p className="mt-2 text-muted text-sm flex-grow">{product.tagline}</p>
+          <p className="mt-1.5 text-sm text-muted line-clamp-2 flex-grow">{product.tagline}</p>
         )}
-        <div className="mt-5 flex items-center justify-between">
+        <p className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M20.6 13.4l-7.2 7.2a2 2 0 01-2.8 0l-8-8V4h8.6l9.4 9.4a2 2 0 010 0z" />
+            <circle cx="7.5" cy="7.5" r="1.5" />
+          </svg>
+          Precio bajo cotización
+        </p>
+        <div className="mt-4 flex gap-2">
+          <AddToQuoteButton
+            product={{
+              id: product.id,
+              slug: product.slug,
+              name: product.name,
+              image_url: product.image_url,
+              category: product.category,
+            }}
+            label="Agregar"
+            className="flex-grow"
+          />
           <Link
             href={`/productos/${product.slug}`}
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary group-hover:gap-2.5 transition-all"
+            aria-label={`Ver detalles de ${product.name}`}
+            className="shrink-0 w-11 h-11 grid place-items-center rounded-xl border border-line text-primary hover:border-cyan/50 hover:bg-surface active:scale-95 transition"
           >
-            Ver detalles
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M5 12h14M13 6l6 6-6 6" />
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" />
+              <circle cx="12" cy="12" r="3" />
             </svg>
-          </Link>
-          <Link
-            href={`/cotizacion?producto=${product.slug}`}
-            className="text-sm font-semibold text-cyan-ink hover:text-primary transition-colors"
-          >
-            Cotizar
           </Link>
         </div>
       </div>

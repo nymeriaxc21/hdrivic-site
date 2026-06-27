@@ -316,6 +316,34 @@ body {
   .menu-in {
     animation: menuIn 0.25s var(--ease-out);
   }
+  .badge-pop {
+    animation: badgePop 0.3s var(--ease-spring);
+  }
+  .card-enter {
+    animation: cardEnter 0.5s var(--ease-out) both;
+  }
+}
+
+@keyframes badgePop {
+  0% {
+    transform: scale(0.4);
+  }
+  60% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @keyframes menuIn {
@@ -390,51 +418,7 @@ body {
   }
 }
 
-/* ---------- Header: claro sobre hero oscuro, sólido al hacer scroll ---------- */
-#siteHeader {
-  transition: background-color 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out),
-    border-color 0.3s var(--ease-out);
-}
-#siteHeader.scrolled {
-  background: rgba(242, 248, 252, 0.82);
-  backdrop-filter: blur(12px) saturate(1.2);
-  box-shadow: 0 1px 0 rgba(2, 40, 100, 0.07), var(--shadow-soft);
-  border-color: var(--color-line);
-}
-#siteHeader .navlink {
-  color: rgba(255, 255, 255, 0.85);
-}
-#siteHeader .navlink:hover {
-  color: #ffffff;
-}
-#siteHeader .menu-btn {
-  color: #ffffff;
-}
-#siteHeader.scrolled .navlink {
-  color: var(--color-muted);
-}
-#siteHeader.scrolled .navlink:hover {
-  color: var(--color-primary);
-}
-#siteHeader.scrolled .menu-btn {
-  color: var(--color-primary);
-}
-
-/* En páginas internas (no-home) el header arranca ya en modo claro */
-#siteHeader.solid {
-  background: rgba(242, 248, 252, 0.85);
-  backdrop-filter: blur(12px) saturate(1.2);
-  border-color: var(--color-line);
-}
-#siteHeader.solid .navlink {
-  color: var(--color-muted);
-}
-#siteHeader.solid .navlink:hover {
-  color: var(--color-primary);
-}
-#siteHeader.solid .menu-btn {
-  color: var(--color-primary);
-}
+/* Header de tienda: estilos en el propio componente (sticky + sólido). */
 
 /* ---------- FAQ (details/summary nativo) ---------- */
 details.faq > summary {

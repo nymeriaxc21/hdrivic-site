@@ -16,7 +16,7 @@ export default function PageHero({ eyebrow, title, subtitle }: Props) {
       <div className="orb aurora-b glow-pulse w-[20rem] h-[20rem] -bottom-28 -left-16 bg-blue/30" aria-hidden="true" />
 
       <div
-        className="relative z-10 mx-auto max-w-[1240px] px-5 md:px-10 pt-28 md:pt-36 pb-12 md:pb-16"
+        className="relative z-10 mx-auto max-w-[1240px] px-5 md:px-10 pt-12 md:pt-16 pb-12 md:pb-16"
         data-stagger="80"
       >
         {eyebrow && (

@@ -4,30 +4,25 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import SearchBar from "./SearchBar";
+import CartButton from "@/components/cart/CartButton";
 
-const NAV = [
-  { href: "/catalogo", label: "Equipos" },
-  { href: "/#tecnologia", label: "Tecnología" },
-  { href: "/#proceso", label: "Proceso" },
-  { href: "/#testimonios", label: "Testimonios" },
-  { href: "/#faq", label: "Preguntas" },
+const CATS = [
+  { label: "Inicio", href: "/" },
+  { label: "Todos los equipos", href: "/catalogo" },
+  { label: "Ozonoterapia", href: "/catalogo?cat=Ozonoterapia" },
+  { label: "PEMF", href: "/catalogo?cat=PEMF" },
+  { label: "DISSO3", href: "/catalogo?cat=DISSO3" },
+  { label: "Accesorios", href: "/catalogo?cat=Accesorios" },
 ];
 
 export default function Header() {
   const pathname = usePathname();
-  const isHome = pathname === "/";
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Sobre el hero oscuro (home) el header es claro y se oscurece al hacer scroll.
-  // En páginas internas arranca siempre en modo sólido.
   useEffect(() => {
-    if (!isHome) return;
-    const onScroll = () => setScrolled((window.scrollY || 0) > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [isHome]);
+    setMenuOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -37,109 +32,103 @@ export default function Header() {
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
-  const headerClass = [
-    "fixed top-0 inset-x-0 z-50 border-b border-transparent",
-    isHome ? (scrolled ? "scrolled" : "") : "solid",
-  ]
-    .filter(Boolean)
-    .join(" ");
-
   return (
-    <header id="siteHeader" className={headerClass}>
-      <div className="mx-auto max-w-[1240px] h-16 md:h-[72px] px-5 md:px-10 flex items-center justify-between gap-4">
-        <Link
-          href="/"
-          className="flex items-center shrink-0"
-          aria-label="HD RIVIC — Inicio"
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-line shadow-sm">
+      {/* Fila superior */}
+      <div className="mx-auto max-w-[1240px] px-4 md:px-10 h-16 md:h-[72px] flex items-center gap-3 md:gap-5">
+        <button
+          type="button"
+          aria-controls="mobileMenu"
+          aria-expanded={menuOpen}
+          aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+          onClick={() => setMenuOpen((v) => !v)}
+          className="lg:hidden inline-flex items-center justify-center w-11 h-11 -ml-2 rounded-xl text-primary hover:bg-cyan/10 active:scale-95 transition"
         >
-          <span className="bg-white/95 backdrop-blur-sm rounded-xl px-3 py-1.5 inline-flex items-center shadow-soft transition-transform duration-300 hover:scale-[1.03] active:scale-95">
-            <Image
-              src="/assets/hd-rivic-logo.png"
-              alt="HD RIVIC · Ingeniería Médica"
-              width={140}
-              height={80}
-              className="h-9 w-auto"
-              priority
-            />
-          </span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+            {menuOpen ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 6h16M4 12h16M4 18h16" />}
+          </svg>
+        </button>
+
+        <Link href="/" className="flex items-center shrink-0" aria-label="HD RIVIC — Inicio">
+          <Image
+            src="/assets/hd-rivic-logo.png"
+            alt="HD RIVIC · Ingeniería Médica"
+            width={150}
+            height={86}
+            className="h-8 md:h-10 w-auto transition-transform duration-300 hover:scale-[1.03] active:scale-95"
+            priority
+          />
         </Link>
 
-        <nav
-          className="hidden lg:flex items-center gap-7 h-full"
-          aria-label="Navegación principal"
-        >
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="navlink text-sm font-medium transition-colors"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+        <div className="hidden md:flex flex-grow max-w-xl">
+          <SearchBar className="w-full" />
+        </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 ml-auto md:ml-0">
           <Link
             href="/cotizacion"
-            className="btn-brand hidden sm:inline-flex items-center justify-center h-11 px-5 rounded-xl text-sm font-semibold"
+            className="hidden xl:inline-flex items-center gap-2 h-11 px-4 rounded-xl text-sm font-semibold text-primary hover:bg-cyan/10 transition"
           >
-            Solicitar Cotización
-          </Link>
-          <button
-            type="button"
-            aria-controls="mobileMenu"
-            aria-expanded={menuOpen}
-            aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
-            onClick={() => setMenuOpen((v) => !v)}
-            className="menu-btn lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-lg hover:bg-black/5 active:scale-95 transition"
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              aria-hidden="true"
-            >
-              {menuOpen ? (
-                <path d="M6 6l12 12M18 6L6 18" />
-              ) : (
-                <path d="M4 6h16M4 12h16M4 18h16" />
-              )}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.6a2 2 0 01-.5 2.1L8.1 9.6a16 16 0 006 6l1.2-1.1a2 2 0 012.1-.5c.8.3 1.7.5 2.6.6a2 2 0 011.7 2z" />
             </svg>
-          </button>
+            Cotizar
+          </Link>
+          <CartButton />
         </div>
       </div>
 
+      {/* Búsqueda móvil */}
+      <div className="md:hidden px-4 pb-3">
+        <SearchBar className="w-full" onSubmitted={() => setMenuOpen(false)} />
+      </div>
+
+      {/* Navegación de categorías (desktop) */}
+      <nav className="hidden lg:block border-t border-line/70" aria-label="Categorías">
+        <div className="mx-auto max-w-[1240px] px-10 h-11 flex items-center gap-6">
+          {CATS.map((c) => (
+            <Link
+              key={c.href}
+              href={c.href}
+              className="navlink text-sm font-medium text-muted hover:text-primary transition-colors"
+            >
+              {c.label}
+            </Link>
+          ))}
+          <span className="ml-auto inline-flex items-center gap-2 text-xs text-muted">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <rect x="1" y="5" width="14" height="12" rx="1" />
+              <path d="M15 9h4l3 3v5h-7M5.5 19a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM18.5 19a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+            </svg>
+            Envío a todo México · Soporte 24/7
+          </span>
+        </div>
+      </nav>
+
+      {/* Menú móvil */}
       {menuOpen && (
-        <div
-          id="mobileMenu"
-          className="menu-in lg:hidden bg-surface/95 backdrop-blur border-t border-line"
-        >
+        <div id="mobileMenu" className="menu-in lg:hidden border-t border-line bg-white">
           <nav
-            className="px-5 py-2 flex flex-col"
+            className="px-4 py-2 flex flex-col"
             aria-label="Navegación móvil"
             onClick={(e) => {
               if ((e.target as HTMLElement).closest("a")) setMenuOpen(false);
             }}
           >
-            {NAV.map((item) => (
+            {CATS.map((c) => (
               <Link
-                key={item.href}
-                href={item.href}
+                key={c.href}
+                href={c.href}
                 className="py-3.5 text-base font-medium text-ink border-b border-line"
               >
-                {item.label}
+                {c.label}
               </Link>
             ))}
             <Link
               href="/cotizacion"
-              className="btn-brand mt-3 mb-3 inline-flex items-center justify-center h-12 rounded-xl font-semibold"
+              className="btn-brand my-3 inline-flex items-center justify-center h-12 rounded-xl font-semibold"
             >
-              Solicitar Cotización
+              Solicitar cotización
             </Link>
           </nav>
         </div>
