@@ -39,12 +39,14 @@ export default function SearchBar({ className = "", initialValue = "", onSubmitt
         aria-label="Buscar equipos"
         className="w-full h-11 pl-11 pr-24 rounded-xl border border-line bg-white text-ink placeholder:text-muted/70 focus-visible:border-cyan transition"
       />
-      <button
-        type="submit"
-        className="btn-brand absolute right-1.5 top-1.5 inline-flex items-center justify-center h-8 px-4 rounded-lg text-sm font-semibold"
-      >
-        Buscar
-      </button>
+      <span className="absolute right-1.5 top-1/2 -translate-y-1/2">
+        <button
+          type="submit"
+          className="btn-brand inline-flex items-center justify-center h-8 px-4 rounded-lg text-sm font-semibold"
+        >
+          Buscar
+        </button>
+      </span>
     </form>
   );
 }
