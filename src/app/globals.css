@@ -322,6 +322,9 @@ body {
   .card-enter {
     animation: cardEnter 0.5s var(--ease-out) both;
   }
+  .showcase-fade {
+    animation: showcaseFade 0.6s var(--ease-out);
+  }
 }
 
 @keyframes badgePop {
@@ -343,6 +346,18 @@ body {
   to {
     opacity: 1;
     transform: none;
+  }
+}
+@keyframes showcaseFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
   }
 }
 

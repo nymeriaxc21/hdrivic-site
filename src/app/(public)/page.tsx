@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { getVisibleProducts } from "@/lib/products";
 import ProductCard from "@/components/catalog/ProductCard";
 import SearchBar from "@/components/site/SearchBar";
-import AddToQuoteButton from "@/components/cart/AddToQuoteButton";
+import HeroShowcase from "@/components/site/HeroShowcase";
 
 /* ---------- Datos ---------- */
 const TRUST = [
@@ -131,6 +131,13 @@ export default async function HomePage() {
     products[1] ??
     heroProduct;
   const featuredGrid = (featured.length ? featured : products).slice(0, 4);
+  const showcaseProducts = (featured.length ? featured : products.slice(0, 5)).map((p) => ({
+    id: p.id,
+    slug: p.slug,
+    name: p.name,
+    image_url: p.image_url,
+    category: p.category,
+  }));
   const countByCat = (c: string) => products.filter((p) => p.category === c).length;
 
   return (
@@ -143,14 +150,7 @@ export default async function HomePage() {
         <div className="relative z-10 mx-auto max-w-[1240px] px-5 md:px-10 py-12 md:py-16 grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
           {/* Texto */}
           <div data-stagger="90">
-            <p className="inline-flex items-center gap-2 rounded-full bg-white border border-line shadow-soft px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-cyan-ink" data-reveal>
-              <span className="relative flex h-2 w-2" aria-hidden="true">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-cyan opacity-75 glow-pulse" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan" />
-              </span>
-              Tienda de equipo médico · Puebla, México
-            </p>
-            <h1 className="mt-5 font-display text-[2.4rem] leading-[1.06] sm:text-5xl md:text-[3.4rem] font-bold tracking-tight text-ink" data-reveal>
+            <h1 className="font-display text-[2.4rem] leading-[1.06] sm:text-5xl md:text-[3.4rem] font-bold tracking-tight text-ink" data-reveal>
               Equipa tu clínica con{" "}
               <span className="text-gradient-brand anim-gradient-text">medicina regenerativa</span>
             </h1>
@@ -176,63 +176,10 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Showcase de producto destacado */}
-          {heroProduct && (
-            <div className="relative" data-reveal="left">
-              <div className="orb glow-pulse w-72 h-72 -top-10 -right-6 bg-cyan/30" aria-hidden="true" />
-              <div className="relative rounded-3xl bg-gradient-to-br from-navy to-navy-2 p-5 md:p-7 shadow-glow">
-                <div className="absolute inset-0 grid-motif opacity-25 rounded-3xl" aria-hidden="true" />
-                <div className="relative">
-                  <div className="flex items-center justify-between">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-cyan/20 ring-1 ring-cyan/40 text-white px-3 py-1 text-xs font-semibold">
-                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-bright" aria-hidden="true" />
-                      Destacado
-                    </span>
-                    <Stars className="opacity-90" />
-                  </div>
-
-                  <Link href={`/productos/${heroProduct.slug}`} className="block mt-4 rounded-2xl overflow-hidden border border-white/10 bg-white/5 aspect-[5/4] group">
-                    {heroProduct.image_url ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={heroProduct.image_url} alt={heroProduct.name} className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out" />
-                    ) : (
-                      <span className="w-full h-full grid place-items-center text-white/40" aria-hidden="true">
-                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2"><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 16l5-5 4 4 3-3 6 6" /></svg>
-                      </span>
-                    )}
-                  </Link>
-
-                  <div className="mt-5 flex items-end justify-between gap-4">
-                    <div className="min-w-0">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-cyan-bright">{heroProduct.category}</p>
-                      <h2 className="mt-1 font-display text-lg font-bold text-white leading-snug line-clamp-2">{heroProduct.name}</h2>
-                      <p className="mt-1 text-sm text-white/60">Precio bajo cotización</p>
-                    </div>
-                    <AddToQuoteButton
-                      product={{
-                        id: heroProduct.id,
-                        slug: heroProduct.slug,
-                        name: heroProduct.name,
-                        image_url: heroProduct.image_url,
-                        category: heroProduct.category,
-                      }}
-                      openOnAdd
-                      label="Agregar"
-                      className="shrink-0"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="absolute -bottom-5 -left-4 sm:-left-6 bg-white rounded-2xl shadow-lift border border-line p-3.5 pr-5 flex items-center gap-3 float-med">
-                <span className="grid place-items-center w-10 h-10 rounded-xl bg-blue-fixed text-primary" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z" /><path d="M9 12l2 2 4-4" /></svg>
-                </span>
-                <div>
-                  <p className="text-sm font-bold text-ink leading-none">ISO 13485</p>
-                  <p className="text-xs text-muted mt-1">Grado médico certificado</p>
-                </div>
-              </div>
+          {/* Showcase rotativo de destacados */}
+          {showcaseProducts.length > 0 && (
+            <div data-reveal="left">
+              <HeroShowcase products={showcaseProducts} />
             </div>
           )}
         </div>
